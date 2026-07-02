@@ -39,32 +39,36 @@ let favoriteInput = document.querySelector('#favorite-input');
 let addFavoriteBtn = document.querySelector('#add-favorite-btn');
 let favoritesList = document.querySelector('#favorites-list');
 
+// function to create one favorite list item on the page
+function createFavoriteItem(dishName) {
+    let li = document.createElement('li');
+    let deleteButton = document.createElement('button');
+
+    li.textContent = dishName;
+    deleteButton.textContent = "Remove";
+    deleteButton.classList.add('remove-btn');
+
+    // event listener for the delete button
+    deleteButton.addEventListener('click', function(event) {
+        li.remove();
+        removeFavoriteFromStorage(dishName);
+    });
+
+    li.appendChild(deleteButton);
+    favoritesList.appendChild(li);
+}
+
 addFavoriteBtn.addEventListener('click', function(event) {
     // only add if the input is not empty
     if (favoriteInput.value != "") {
         console.log("You added: " + favoriteInput.value);
 
-        // create a new list item with a delete button
-        let li = document.createElement('li');
-        let deleteButton = document.createElement('button');
-
-        li.textContent = favoriteInput.value;
-        deleteButton.textContent = "Remove";
-        deleteButton.classList.add('remove-btn');
-
-        // event listener for the new delete button
-        deleteButton.addEventListener('click', function(event) {
-            li.remove();
-        });
-
-        // add the delete button inside the li
-        li.appendChild(deleteButton);
-        // add the li to the favorites list
-        favoritesList.appendChild(li);
+        createFavoriteItem(favoriteInput.value);
+        saveFavoriteToStorage(favoriteInput.value);
 
         // clear the input field
         favoriteInput.value = "";
-    } else{
+    } else {
         alert("Please type a dish name first.");
     }
 });
@@ -103,4 +107,36 @@ orderForm.addEventListener('submit', function(event) {
         orderDate.value = "";
         customerOrder.value = "";
     }
+});
+//Feature 4: Perstence
+// get favorites already saved in localStorage, or an empty array if none exist
+function getFavoritesFromStorage() {
+    let stored = localStorage.getItem('favorites');
+    if (stored == null) {
+        return [];
+    } else {
+        return JSON.parse(stored);
+    }
+}
+
+// save a new favorite to localStorage
+function saveFavoriteToStorage(dishName) {
+    let favorites = getFavoritesFromStorage();
+    favorites.push(dishName);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+}
+
+// remove a favorite from localStorage
+function removeFavoriteFromStorage(dishName) {
+    let favorites = getFavoritesFromStorage();
+    let updatedFavorites = favorites.filter(function(item) {
+        return item != dishName;
+    });
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+}
+
+// when the page loads, display any favorites already saved
+let savedFavorites = getFavoritesFromStorage();
+savedFavorites.forEach(function(dishName) {
+    createFavoriteItem(dishName);
 });
