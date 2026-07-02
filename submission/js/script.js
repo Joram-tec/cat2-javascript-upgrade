@@ -33,3 +33,38 @@ dailySpecials.forEach(function(special) {
 
     specialsContainer.appendChild(specialCard);
 });
+//Feature 2- Adding and Removing elements
+// grab the input, button, and list from the page
+let favoriteInput = document.querySelector('#favorite-input');
+let addFavoriteBtn = document.querySelector('#add-favorite-btn');
+let favoritesList = document.querySelector('#favorites-list');
+
+addFavoriteBtn.addEventListener('click', function(event) {
+    // only add if the input is not empty
+    if (favoriteInput.value != "") {
+        console.log("You added: " + favoriteInput.value);
+
+        // create a new list item with a delete button
+        let li = document.createElement('li');
+        let deleteButton = document.createElement('button');
+
+        li.textContent = favoriteInput.value;
+        deleteButton.textContent = "Remove";
+        deleteButton.classList.add('remove-btn');
+
+        // event listener for the new delete button
+        deleteButton.addEventListener('click', function(event) {
+            li.remove();
+        });
+
+        // add the delete button inside the li
+        li.appendChild(deleteButton);
+        // add the li to the favorites list
+        favoritesList.appendChild(li);
+
+        // clear the input field
+        favoriteInput.value = "";
+    } else{
+        alert("Please type a dish name first.");
+    }
+});
