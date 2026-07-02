@@ -68,3 +68,39 @@ addFavoriteBtn.addEventListener('click', function(event) {
         alert("Please type a dish name first.");
     }
 });
+
+//3.Form Validation
+let orderForm = document.querySelector('#order-form');
+let formFeedback = document.querySelector('#form-feedback');
+
+orderForm.addEventListener('submit', function(event) {
+    // stop the form from submitting 
+    event.preventDefault();
+
+    // grab the form inputs
+    let customerName = document.querySelector('#customer-name');
+    let orderDate = document.querySelector('#order-date');
+    let customerOrder = document.querySelector('#customer-order');
+
+    // validation checks
+    if (customerName.value == "") {
+        formFeedback.textContent = "Please enter your name.";
+        formFeedback.classList.add('error');
+    } else if (orderDate.value == "") {
+        formFeedback.textContent = "Please select a date.";
+        formFeedback.classList.add('error');
+    } else if (customerOrder.value == "") {
+        formFeedback.textContent = "Please tell us what you would like to order.";
+        formFeedback.classList.add('error');
+    } else {
+        // all fields filled in correctly
+        formFeedback.textContent = "Thank you, " + customerName.value + "! Your order has been received.";
+        formFeedback.classList.remove('error');
+        formFeedback.classList.add('success');
+
+        // clear the form
+        customerName.value = "";
+        orderDate.value = "";
+        customerOrder.value = "";
+    }
+});
