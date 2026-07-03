@@ -140,3 +140,10 @@ let savedFavorites = getFavoritesFromStorage();
 savedFavorites.forEach(function(dishName) {
     createFavoriteItem(dishName);
 });
+//Feature 5: Banner image
+let bannerImage = document.querySelector('#banner-image');
+let bannerCaption = document.querySelector('#banner-caption');
+
+bannerImage.addEventListener('click', function(event){
+    bannerCaption.classList.toggle('show-caption');
+});
