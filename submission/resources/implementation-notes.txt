@@ -1,0 +1,34 @@
+CAT 2 - JavaScript Implementation Notes
+
+FEATURE 1: Loop-rendered content
+An array of 5 objects (name, description, price) is stored in script.js.
+A forEach() loop reads through the array and uses createElement(),
+textContent, and appendChild() to build a card for each special and
+insert it into #specials-container on page load.
+
+FEATURE 2: Add & remove elements
+User types a dish name into #favorite-input and clicks #add-favorite-btn.
+An event listener creates a new <li> with createElement(), adds a
+"Remove" button inside it, and appends it to #favorites-list. Each
+Remove button has its own click listener that calls .remove() to
+delete just that list item.
+
+FEATURE 3: Form handling with validation
+The #order-form submit event is captured and event.preventDefault()
+stops the page from reloading. The three fields (name, date, order)
+are checked in order using .value. If any field is empty, an error
+message is written to #form-feedback using textContent. If all
+fields are filled, a success message is shown and the form is cleared.
+
+FEATURE 4: Persistent state 
+Favorites are saved to localStorage using JSON.stringify() every time
+one is added, and removed using .filter() + JSON.stringify() when
+deleted. On page load, localStorage.getItem() retrieves any saved
+favorites and JSON.parse() converts them back into an array, which is
+then rendered back onto the page using the same function from Feature 2.
+This means favorites survive a page refresh or browser restart.
+
+FEATURE 5: Click-to-reveal banner caption
+Clicking #banner-image toggles a "show-caption" class on
+#banner-caption using classList.toggle(). The CSS shows/hides the
+caption based on whether that class is present.
